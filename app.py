@@ -72,15 +72,22 @@ def endpoint():
 
     # Sort popular restaurants first by online status and then by popularity
     popular_restaurants["restaurants"] = sorted(popular_restaurants["restaurants"], key=lambda x: (-x["online"], -x["popularity"]))[:10]
+    popular_restaurants["restaurants"] = sorted(popular_restaurants["restaurants"], key=lambda x: (-x["popularity"]))
 
     # Sort new restaurants first by online status and then by launch_date
     new_restaurants["restaurants"] = sorted(new_restaurants["restaurants"], key=lambda x: (-x["online"], sort_newest(x["launch_date"])))[:10]
+    new_restaurants["restaurants"] = sorted(new_restaurants["restaurants"], key=lambda x: (sort_newest(x["launch_date"])))
 
-    near_restaurants["restaurants"] = sorted(near_restaurants["restaurants"], key=lambda x: (-x["online"], calc_dist(lat, lon, x["location"][1], x["location"][0])))
+    # Sort nearby restaurants by online status and then by proximity
+    near_restaurants["restaurants"] = sorted(near_restaurants["restaurants"], key=lambda x: (-x["online"], calc_dist(lat, lon, x["location"][1], x["location"][0])))[:10]
+    near_restaurants["restaurants"] = sorted(near_restaurants["restaurants"], key=lambda x: (calc_dist(lat, lon, x["location"][1], x["location"][0])))
 
-    ret["sections"].append(popular_restaurants)
-    ret["sections"].append(new_restaurants)
-    ret["sections"].append(near_restaurants)
+    if len(popular_restaurants["restaurants"]) > 0:
+        ret["sections"].append(popular_restaurants)
+    if len(new_restaurants["restaurants"]) > 0:
+        ret["sections"].append(new_restaurants)
+    if len(near_restaurants["restaurants"]) > 0:
+        ret["sections"].append(near_restaurants)
 
     return jsonify(ret)
 
