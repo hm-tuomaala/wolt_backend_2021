@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.config['JSON_SORT_KEYS'] = False
 
+DATE_FORMAT = "%Y-%m-%d"
 
 
 def calc_dist(c1_lat, c1_lon, c2_lat, c2_lon):
@@ -16,16 +17,19 @@ def calc_dist(c1_lat, c1_lon, c2_lat, c2_lon):
 
 
 def month_diff(date_str):
-    date = datetime.strptime(date_str, "%Y-%m-%d")
+    date = datetime.strptime(date_str, DATE_FORMAT)
     now = datetime.now()
     return (now.year - date.year) * 12 + now.month - date.month
 
+
 def sort_newest(date_str):
-    return (datetime.now() - datetime.strptime(date_str, "%Y-%m-%d"))
+    return (datetime.now() - datetime.strptime(date_str, DATE_FORMAT))
+
 
 @app.route("/", methods = ['GET'])
-def hello():
+def root():
     return "This is the root of the endpoint"
+
 
 @app.route("/discovery", methods = ['GET'])
 def search():
