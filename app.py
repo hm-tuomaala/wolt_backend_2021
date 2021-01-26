@@ -26,7 +26,7 @@ def hello():
     return "This is the root of the endpoint"
 
 @app.route("/discovery")
-def endpoint():
+def search():
     lat = request.args.get("lat")
     lon = request.args.get("lon")
 
@@ -35,10 +35,10 @@ def endpoint():
         lon = float(lon)
     except ValueError:
         # lat and/or lon query parameters are not of right type
-        return "Error in query string: lat and lon type must be int or float"
+        return (jsonify({"Error": "lat and lon type must be float"}), 400)
     except TypeError:
         # lat and/or lon query parameters are missing
-        return "Error in query parameters: you must include lat and lon values"
+        return (jsonify({"Error": "lat and lon values must be included in the query string"}), 400)
 
     ret = {
         "sections": []
@@ -92,4 +92,4 @@ def endpoint():
     return jsonify(ret)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
