@@ -34,7 +34,7 @@ def test_get_discovery_response_section_lengths(client):
 def test_get_discovery_response_restaurants_closer_than_1500m(client):
     lat = 60.1709
     lon = 24.941
-    sections = client.get(f"/discovery?lat={lat}}&lon={lon}").json["sections"]
+    sections = client.get(f"/discovery?lat={lat}&lon={lon}").json["sections"]
     for sec in sections:
         for restaurant in sec["restaurants"]:
             assert calc_dist(lat, lon, restaurant["location"][1], restaurant["location"][0]) < 1.5
