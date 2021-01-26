@@ -1,3 +1,4 @@
+from app import calc_dist
 import requests
 import pytest
 
@@ -29,3 +30,11 @@ def test_get_discovery_response_section_lengths(client):
     sections = client.get("/discovery?lat=60.1709&lon=24.941").json["sections"]
     for sec in sections:
         assert len(sec["restaurants"]) == 10
+
+def test_get_discovery_response_restaurants_closer_than_1500m(client):
+    lat = 60.1709
+    lon = 24.941
+    sections = client.get(f"/discovery?lat={lat}}&lon={lon}").json["sections"]
+    for sec in sections:
+        for restaurant in sec["restaurants"]:
+            assert calc_dist(lat, lon, restaurant["location"][1], restaurant["location"][0]) < 1.5
