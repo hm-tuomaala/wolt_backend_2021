@@ -64,7 +64,7 @@ def search():
         for item in restaurants["restaurants"]:
             lat_restaurant = item["location"][1]
             lon_restaurant = item["location"][0]
-            if calc_dist(lat,lon, lat_restaurant, lon_restaurant) <= 1.5:
+            if calc_dist(lat,lon, lat_restaurant, lon_restaurant) < 1.5:
                 popular_restaurants["restaurants"].append(item)
                 near_restaurants["restaurants"].append(item)
                 if month_diff(item["launch_date"]) <= 4:
