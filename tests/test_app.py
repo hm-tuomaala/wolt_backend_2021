@@ -43,15 +43,6 @@ def test_response_section_lengths(client):
         assert len(sec["restaurants"]) == 10
 
 
-def test_response_restaurants_closer_than_1500m(client):
-    lat = 60.1709
-    lon = 24.941
-    sections = client.get(f"/discovery?lat={lat}&lon={lon}").json["sections"]
-    for sec in sections:
-        for restaurant in sec["restaurants"]:
-            assert calc_dist(lat, lon, restaurant["location"][1], restaurant["location"][0]) < 1.5
-
-
 def test_popular_restaurants_sorting(client):
     section1 = client.get("/discovery?lat=60.1709&lon=24.941").json["sections"]
     section2 = client.get("/discovery?lat=60.1579&lon=24.961").json["sections"]
