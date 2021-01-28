@@ -28,8 +28,8 @@ def sort_newest(date_str):
 
 
 @app.route("/", methods = ['GET'])
-def root():
-    return "This is the root of the endpoint"
+def index():
+    return "API endpoint at: <i>/descovery</i>"
 
 
 @app.route("/discovery", methods = ['GET'])
@@ -50,17 +50,14 @@ def search():
     ret = {
         "sections": []
     }
-
     popular_restaurants = {
         "title": "Popular Restaurants",
         "restaurants": []
     }
-
     new_restaurants = {
         "title": "New Restaurants",
         "restaurants": []
     }
-
     near_restaurants = {
         "title": "Nearby Restaurants",
         "restaurants": []
