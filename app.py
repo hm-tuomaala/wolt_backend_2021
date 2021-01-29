@@ -12,18 +12,42 @@ DATE_FORMAT = "%Y-%m-%d"
 
 
 def calc_dist(c1_lat, c1_lon, c2_lat, c2_lon):
+    """
+    Calculates the distance between two points
+
+        Parameters:
+            c1_lat (float): Latitude of the first coordinate
+            c1_lon (float): Longitude of the first coordinate
+            c2_lat (float): Latitude of the second coordinate
+            c2_lon (float): Longitude of the second coordinate
+
+        Returns:
+            (float): Distance between coordinates in km
+    """
     c1 = (c1_lat, c1_lon)
     c2 = (c2_lat, c2_lon)
     return geopy.distance.distance(c1, c2).km
 
 
 def month_diff(date_str):
+    """
+    Calculates elapsed months since date_str
+
+        Parameters:
+            date_str (str): Date to be calculated
+
+        Returns:
+            (int): Number of months since date_str
+    """
     date = datetime.strptime(date_str, DATE_FORMAT)
     now = datetime.now()
     return (now.year - date.year) * 12 + now.month - date.month
 
 
 def sort_newest(date_str):
+    """
+    Helper function to order items based on date_str value
+    """
     return (datetime.now() - datetime.strptime(date_str, DATE_FORMAT))
 
 
@@ -63,6 +87,7 @@ def search():
         "restaurants": []
     }
 
+    # Populate the return categories
     with open("restaurants.json", "r") as json_data:
         restaurants = json.load(json_data)
         for item in restaurants["restaurants"]:
